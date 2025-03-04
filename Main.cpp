@@ -44,9 +44,15 @@ int main() {
 
     std::cout << "\n\n\n\n";
 
-    Expression<std::complex<long double>> expr = "sin(cos(x))";
-    std::cout << "\nExpression as string: " << expr.toString() << std::endl;
-    expr.subsVar("x= 0 + 32I");
-    std::cout  << "\nExpression as string after sub: " << expr.toString() << std::endl;
-    std::cout << expr.evaluate() << std::endl;
+    Expression<std::complex<long double>> expr5 = "sin(cos(x))";
+    std::cout << "\nExpression as string: " << expr5.toString() << std::endl;
+    expr5.subsVar("x= 0 + 32I");
+    std::cout  << "\nExpression as string after sub: " << expr5.toString() << std::endl;
+    std::cout << expr5.evaluate() << std::endl;
+
+    std::cout << "\n\n\n\n";
+
+    Expression<long double> expr4 = "1 / 0";
+    std::cout << "\nExpression as string: " << expr4.toString() << std::endl;
+    std::cout << expr4.evaluate() << std::endl;
 }
