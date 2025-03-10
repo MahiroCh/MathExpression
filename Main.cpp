@@ -1,58 +1,42 @@
 #include "Expression.hpp"
+#include "Tests.hpp"
 
-int main() {
-    Expression<std::complex<long double>> expr = "sin(x) * cos(y) + ln(z + 2) - (cos(x + y) / sin(z + 1)) + x^2 * ln(y + 1) - z * cos(y - x)";
-    std::cout << "\nExpression as string: " << expr.toString() << std::endl;
-    expr.subsVar("x=5.123 z = 0.001400 + 31I y = 0001I");
-    std::cout  << "\nExpression as string after sub: " << expr.toString() << std::endl;
-    std::cout << expr.evaluate() << std::endl;
+int main(int argc, char* argv[]) {
 
-    std::cout << "\n\n\n\n";
+    if ((std::string)argv[1] == "test") Tests();
+    
+    if (std::string(argv[1]) == "--eval") {
+        
+        std::string subs_vars;
+        for (int i = 3; i < argc; i++)
+            subs_vars += (' ' + std::string(argv[i]));
+        
+        if (std::string(argv[2]).find('I') != std::string::npos ||
+            subs_vars.find('I') != std::string::npos) {
 
-    Expression<long double> expr1 = "sin(x) * cos(y) + ln(z + 2) - (cos(x + y) / sin(z + 1)) + x^2 * ln(y + 1) - z * cos(y - x)";
-    std::cout << "\nExpression as string: " << expr1.toString() << std::endl;
-    expr1.subsVar("x=5.123 z = 0.001400 y = 0001");
-    std::cout  << "\nExpression as string after sub: " << expr1.toString() << std::endl;
-    std::cout << expr1.evaluate() << std::endl;
+            Expression<std::complex<long double>> expr(argv[2]);
+            expr.subsVar(subs_vars);
+            std::cout << expr.evaluate() << std::endl;
+        }
+        else {
 
-    std::cout << "\n\n\n\n";
+            Expression<long double> expr(argv[2]);
+            expr.subsVar(subs_vars);
+            std::cout << expr.evaluate() << std::endl;
+        }
+    }
 
-    Expression<long double> expr2 = 0015.23400;
-    std::cout << "\nExpression as string: " << expr2.toString() << std::endl;
-    std::cout << expr2.evaluate() << std::endl;
+    if (std::string(argv[1]) == "--diff") {
 
-    std::cout << "\n\n\n\n";
+        if (std::string(argv[2]).find('I') != std::string::npos) {
 
-    expr = "123 + x - y";
-    std::cout << "\nExpression as string: " << expr.toString() << std::endl;
-    expr.subsVar("x=5.123 z = 0.001400 y = 0001");
-    std::cout  << "\nExpression as string after sub: " << expr.toString() << std::endl;
-    std::cout << expr.evaluate() << std::endl;
+            Expression<std::complex<long double>> expr(argv[2]);
+            std::cout << expr.differentiate(argv[4]).toString() << std::endl;
+        }
+        else {
 
-    std::cout << "\n\n\n\n";
-
-    expr1 = "sin(x) * cos(y) + ln(z + 2)";
-    expr2 = "123 + x - y";
-    Expression<long double> expr3 = expr2 / expr1;
-    std::cout << "\nExpression as string: " << expr3.toString() << std::endl;
-    expr3.subsVar("x=5.123 z = 0.001400 y = 0001");
-    std::cout  << "\nExpression as string after sub: " << expr3.toString() << "\n\n";
-    std::cout << expr3.evaluate() << std::endl;
-    // не изменились
-    std::cout << "\nExpression as string: " << expr1.toString() << std::endl;
-    std::cout << "\nExpression as string: " << expr2.toString() << std::endl;
-
-    std::cout << "\n\n\n\n";
-
-    Expression<std::complex<long double>> expr5 = "sin(cos(x))";
-    std::cout << "\nExpression as string: " << expr5.toString() << std::endl;
-    expr5.subsVar("x= 0 + 32I");
-    std::cout  << "\nExpression as string after sub: " << expr5.toString() << std::endl;
-    std::cout << expr5.evaluate() << std::endl;
-
-    std::cout << "\n\n\n\n";
-
-    Expression<long double> expr4 = "1 / 0";
-    std::cout << "\nExpression as string: " << expr4.toString() << std::endl;
-    std::cout << expr4.evaluate() << std::endl;
+            Expression<long double> expr(argv[2]);
+            std::cout << expr.differentiate(argv[4]).toString() << std::endl;
+        }
+    }
 }
