@@ -1,21 +1,18 @@
 CXX = g++
 CXXFLAGS = -Wall -O2 -std=c++17
 
-OBJ = Main.o Expression.o
+OBJ = Main.o Expression.o Tests.o
 
-default: Executable
+default: differentiator
 
-%.o: %.cpp
+%.o: %.cpp Expression.hpp Tests.hpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-Executable: $(OBJ)
-	$(CXX) $(CXXFLAGS) $(OBJ) -o Executable
+differentiator: $(OBJ)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o differentiator
 
-runmain: Executable
-	./Executable
-
-# %:
-#	@:
+test: differentiator
+	./differentiator test
 
 clean:
-	rm -f $(OBJ) *.exe Executable
+	rm -f $(OBJ) *.exe differentiator
