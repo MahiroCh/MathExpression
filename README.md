@@ -5,8 +5,8 @@
 
 После сборки из командной строки доступны следующие команды:  
 
-1) Команда вычисления выражения: `./differentiator --eval "*expression*" "*var1*"=*value* "*var2*"=*value* ...`  
-2) Команда подсчета частичной производной: `./differentiator --diff "*expression*" --by "*var*"`  
+1) Команда вычисления выражения: `./differentiator --eval "*expression*" *var1*=*value* *var2*=*value* ...`  
+2) Команда подсчета частичной производной: `./differentiator --diff "*expression*" --by *var*`  
 
 ---
 
