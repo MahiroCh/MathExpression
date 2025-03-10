@@ -78,7 +78,7 @@ void Tests() {
     expr_2_2 = Expression<std::complex<long double>> ("-001.012   sin(t+1)") * Expression<std::complex<long double>> ("-cos(x^2)");
     expr_2_2_2 = expr_2 ^ expr_2_2;
     // std::cout << std::endl << expr_2_2_2.toString() << std::endl;
-    expr_2_2_2.subsVar("x = -1+  I y = 12 - 3I t = 11");
+    expr_2_2_2.subsVar("x = -1+  I y = 12 - I003.00t = 11");
     // std::cout << std::endl << expr_2_2_2.toString() << std::endl;
     // std::cout << std::endl << expr_2_2_2.evaluate() << std::endl;
     TEST_CASE("Test 7 (complex expression arithmetic, substitution, bullshit-styled input and evaluation): ", 
