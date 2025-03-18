@@ -5,7 +5,7 @@ int main(int argc, char* argv[]) {
 
     if ((std::string)argv[1] == "test") Tests();
     
-    if (std::string(argv[1]) == "--eval") {
+    else if (std::string(argv[1]) == "--eval") {
         
         std::string subs_vars;
         for (int i = 3; i < argc; i++)
@@ -16,27 +16,34 @@ int main(int argc, char* argv[]) {
 
             Expression<std::complex<long double>> expr(argv[2]);
             expr.subsVar(subs_vars);
+            expr.debugAST();
             std::cout << expr.evaluate() << std::endl;
         }
         else {
 
             Expression<long double> expr(argv[2]);
+            expr.debugAST();
             expr.subsVar(subs_vars);
             std::cout << expr.evaluate() << std::endl;
         }
     }
 
-    if (std::string(argv[1]) == "--diff") {
+    else if (std::string(argv[1]) == "--diff") {
 
         if (std::string(argv[2]).find('I') != std::string::npos) {
 
             Expression<std::complex<long double>> expr(argv[2]);
+            expr.debugAST();
             std::cout << expr.differentiate(argv[4]).toString() << std::endl;
         }
         else {
-
             Expression<long double> expr(argv[2]);
+            expr.debugAST();
             std::cout << expr.differentiate(argv[4]).toString() << std::endl;
         }
+    }
+
+    else {
+        std::cout << "Invalid commad.";
     }
 }
