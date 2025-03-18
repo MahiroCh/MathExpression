@@ -830,7 +830,13 @@ T Expression<T>::evaluateHelper(const Node* node) const {
                     throw std::runtime_error("Division by zero");
                 return leftValue / rightValue;
 
-            case '^': return std::pow(leftValue, rightValue);
+            case '^': 
+                if constexpr (std::is_same_v<T, long double>) {
+                    long double intPart;
+                    if (std::abs(rightValue) < 1 && std::modf(1 / std::abs(rightValue), &intPart) == 0.0L && (int)(1 / std::abs(rightValue)) % 2 == 0 && leftValue < 0)
+                        throw std::runtime_error("Argument of sqrt < 0 and even sqrt power is not allowed");
+                }
+                return std::pow(leftValue, rightValue);
 
             default: throw std::runtime_error("Unknown binary operator");
         }
@@ -845,9 +851,15 @@ T Expression<T>::evaluateHelper(const Node* node) const {
         else if (funcNode->function == "cos")
             return std::cos(argValue);
 
-        else if (funcNode->function == "ln") 
+        else if (funcNode->function == "ln") {
+            if (argValue == static_cast<T>(0)) 
+                throw std::runtime_error("Argument of ln <= 0 is not allowed");
+            if constexpr (std::is_same_v<T, long double>)  {
+                if (argValue <= 0.0) 
+                    throw std::runtime_error("Argument of ln <= 0 is not allowed");
+            }
             return std::log(argValue);
-
+        }
         else if (funcNode->function == "exp") 
             return std::exp(argValue);
 
